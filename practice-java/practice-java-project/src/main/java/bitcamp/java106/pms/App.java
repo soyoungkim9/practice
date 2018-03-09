@@ -1,6 +1,6 @@
-package bitcamp.java106.pms03;
+package bitcamp.java106.pms;
 
-import bitcamp.java106.pms03.domain.Team;
+import bitcamp.java106.pms.domain.Team;
 import java.util.Scanner;
 
 public class App {
