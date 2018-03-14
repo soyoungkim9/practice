@@ -99,7 +99,7 @@ public class App2 {
                 System.out.print("이메일? ");
                 member.email = keyScan.nextLine();
                 System.out.print("암호? ");
-                member.pwd = keyScan.nextLine();
+                member.password = keyScan.nextLine();
 
                 members[mCount++] = member;
             } else if(menu.equals("member/list")) {
@@ -107,7 +107,7 @@ public class App2 {
                     System.out.printf("%s, %s, %s\n", 
                         members[i].id,
                         members[i].email,
-                        members[i].pwd);
+                        members[i].password);
                 }
             } else if(menu.equals("member/view")) {
                 if(option == null) {
@@ -129,7 +129,7 @@ public class App2 {
                 } else {
                     System.out.printf("아이디: %s\n", member.id);
                     System.out.printf("이메일: %s\n", member.email);
-                    System.out.printf("암호: %s\n", member.pwd);
+                    System.out.printf("암호: %s\n", member.password);
                 }
             }
             else if(menu.equals("quit")) {
