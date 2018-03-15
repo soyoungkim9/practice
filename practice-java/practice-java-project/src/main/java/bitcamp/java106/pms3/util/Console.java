@@ -3,7 +3,7 @@ package bitcamp.java106.pms3.util;
 import java.util.Scanner;
 
 public class Console {
-    static Scanner keyScan;
+    public static Scanner keyScan;
 
     // y/N여부를 확인하는 메서드
     public static boolean confirm(String s) {

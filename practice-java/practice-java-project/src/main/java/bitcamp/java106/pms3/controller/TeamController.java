@@ -1,11 +1,11 @@
-package bitcmp.java106.pms3.controller;
+package bitcamp.java106.pms3.controller;
 
 import java.util.Scanner;
 import bitcamp.java106.pms2.domain.Team;
 import bitcamp.java106.pms3.util.Console;
 
 public class TeamController {
-    static Scanner keyScan;
+    public static Scanner keyScan;
     static Team[] teams = new Team[1000]; // 레퍼런스 생성
     static int tCount = 0; // team인원 등록 수
     

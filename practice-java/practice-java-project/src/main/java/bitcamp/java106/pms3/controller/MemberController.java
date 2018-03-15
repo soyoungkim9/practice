@@ -1,10 +1,10 @@
-package bitcmp.java106.pms3.controller;
+package bitcamp.java106.pms3.controller;
 
 import java.util.Scanner;
 import bitcamp.java106.pms2.domain.Member;
 import bitcamp.java106.pms3.util.Console;
 
-class MemberController {
+public class MemberController {
     public static Scanner keyScan;
     static Member[] members = new Member[1000];
     static  int mCount = 0;
