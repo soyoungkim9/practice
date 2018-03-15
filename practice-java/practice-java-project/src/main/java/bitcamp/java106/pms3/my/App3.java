@@ -1,10 +1,11 @@
-package bitcamp.java106.pms3;
+package bitcamp.java106.pms3.my;
 
 import java.util.Scanner;
 import bitcamp.java106.pms2.domain.Team;
 import bitcamp.java106.pms2.domain.Member;
+import bitcamp.java106.pms3.controller.TeamController;
 
-public class App2 {
+public class App3 {
 
     static Scanner keyScan = new Scanner(System.in);
     static Team[] teams = new Team[1000]; // 레퍼런스 생성
@@ -12,6 +13,35 @@ public class App2 {
     static int tCount = 0; // team인원 등록 수
     static  int mCount = 0;
     static String option = null; // 명령어 뒤의 문자열
+
+    static boolean confirm(String message) {
+        System.out.printf("%s (y/N)", message);
+        String input = keyScan.nextLine();
+        if(input.equals("y"))
+            return true;
+        else
+            return false;
+    }
+
+    static int getTeamIndex(String name) {
+        for(int i = 0; i < tCount; i++) {
+            if(teams[i] == null) continue;
+            if(name.equals(teams[i].name.toLowerCase())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    static int getMemberIndex(String id) {
+        for(int i = 0; i < mCount; i ++) {
+            if(members[i] == null) continue;
+            if(option.equals(members[i].id.toLowerCase())) {
+                return i;
+            }
+        }
+        return -1;
+    }
     
     // 명령어를 입력받는 메서드
     static String[] onInput() {
@@ -70,19 +100,13 @@ public class App2 {
             return;
         }
 
-        Team team = null;
-        for(int i = 0; i < tCount; i++) {
-            if(teams[i] == null) continue;
-            if(option.equals(teams[i].name.toLowerCase())) {
-                team = teams[i];
-                break;
-            }
-        }
-
-        if(team == null) {
+        int i = getTeamIndex(option);
+ 
+        if(i == -1) {
             System.out.println("해당 이름의 팀이 없습니다.");
 
         } else {
+            Team team = teams[i];
             System.out.printf("팀명 : %s\n", team.name);
             System.out.printf("설명 : %s\n", team.description);
             System.out.printf("최대인원 : %d\n", team.maxQty);
@@ -108,7 +132,7 @@ public class App2 {
     // 모든 회원 출력 메서드
     static void onMemList() {
         for(int i = 0; i < mCount; i++) {
-            if(members == null) continue;
+            if(members[i] == null) continue;
             System.out.printf("%s, %s, %s\n", 
                 members[i].id,
                 members[i].email,
@@ -123,18 +147,12 @@ public class App2 {
             return;
         }
         
-        Member member = null;
-        for(int i = 0; i < mCount; i ++) {
-            if(members == null) continue;
-            if(option.equals(members[i].id.toLowerCase())) {
-                member = members[i];
-                break;
-            }
-        }
+        int i = getMemberIndex(option);
 
-        if(member == null) {
+        if(i == -1) {
             System.out.println("해당 아이디의 회원이 없습니다.");
         } else {
+            Member member = members[i];
             System.out.printf("아이디: %s\n", member.id);
             System.out.printf("이메일: %s\n", member.email);
             System.out.printf("암호: %s\n", member.password);
@@ -149,20 +167,13 @@ public class App2 {
             return;
         }
 
-        Team team = null;
-        int i;
-        for(i = 0; i < tCount; i++) {
-            if(teams[i] == null) continue;
-            if(option.equals(teams[i].name.toLowerCase())) {
-                team = teams[i];
-                break;
-            }
-        }
+        int i = getTeamIndex(option);
 
-        if(team == null) {
+        if(i == -1) {
             System.out.println("해당 이름의 팀이 없습니다.");
 
         } else {
+            Team team = teams[i];
             Team updateTeam = new Team();
             System.out.printf("팀명(%s) ? ", team.name);
             updateTeam.name = keyScan.nextLine();
@@ -221,23 +232,13 @@ public class App2 {
             return;
         }
 
-        Team team = null;
-        int i;
-        for(i = 0; i < tCount; i++) {
-            if(teams[i] == null) continue;
-            if(option.equals(teams[i].name.toLowerCase())) {
-                team = teams[i];
-                break;
-            }
-        }
+        int i = getTeamIndex(option);
 
-        if(team == null) {
+        if(i == -1) {
             System.out.println("해당 이름의 팀이 없습니다.");
 
         } else {
-            System.out.print("정말 삭제하시겠습니까?(y/N) ");
-            String input = keyScan.nextLine().toLowerCase();
-            if(input.equals("y")) {
+            if(confirm("정말 삭제하시겠습니까?")) {
                 teams[i] = null;
                 System.out.println("삭제하였습니다.");
             }
@@ -289,19 +290,12 @@ public class App2 {
             return;
         }
         
-        Member member = null;
-        int i;
-        for(i = 0; i < mCount; i ++) {
-            if(members == null) continue;
-            if(option.equals(members[i].id.toLowerCase())) {
-                member = members[i];
-                break;
-            }
-        }
+        int i = getMemberIndex(option);
 
-        if(member == null) {
+        if(i == -1) {
             System.out.println("해당 아이디의 회원이 없습니다.");
         } else {
+            Member member = members[i];
             Member updateMember = new Member();
             System.out.printf("아이디(%s)? ", member.id);
             updateMember.id = keyScan.nextLine();
@@ -347,22 +341,13 @@ public class App2 {
             return;
         }
 
-        Member member = null;
-        int i;
-        for(i = 0; i < tCount; i++) {
-            if(option.equals(members[i].id.toLowerCase())) {
-                member = members[i];
-                break;
-            }
-        }
+        int i = getMemberIndex(option);
 
-        if(member == null) {
+        if(i == -1) {
             System.out.println("해당 이름의 팀이 없습니다.");
 
         } else {
-            System.out.print("정말 삭제하시겠습니까?(y/N) ");
-            String input = keyScan.nextLine().toLowerCase();
-            if(input.equals("y")) {
+            if(confirm("정말 삭제하시겠습니까?")) {
                 members[i] = null;
                 System.out.println("삭제하였습니다.");
             }
