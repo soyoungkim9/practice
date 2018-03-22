@@ -1,136 +1,145 @@
+// 컨트롤러가 작업하는데 필요한 객체를 반드시 준비하도록 생성자를 추가한다.
+// => 생성자를 통해 필수 입력 값을 반드시 설정하도록 강제시킬 수 있다.
+// => 즉 생성자란, 객체를 사용하기 전에 유효한 값으로 설정하게 만드는 문법이다.
 package bitcamp.java106.pms3.controller;
 
+import java.sql.Date;
 import java.util.Scanner;
+
+import bitcamp.java106.pms3.dao.BoardDao;
 import bitcamp.java106.pms3.domain.Board;
 import bitcamp.java106.pms3.util.Console;
 
-public class BoardController {
+public class BoardController3 {
     
-    public static Scanner keyScan;
-
-    static Board[] boards = new Board[1000]; // 레퍼런스 생성
-    static int bCount = 0; // boards 등록 수 
-
+    Scanner keyScan;
+    
+    BoardDao boardDao = new BoardDao();
+      
+    public BoardController3(Scanner scanner) {
+        this.keyScan = scanner;
+    }
     // board만 처리하는 함수
-    public static void service(String menu, String option) {
+    public void service(String menu, String option) {
         if(menu.equals("board/add")) {
-            onBoardAdd();
+            this.onBoardAdd();
         } else if(menu.equals("board/list")) {
-            onBoardList();
+            this.onBoardList();
         } else if(menu.equals("board/view")) {
-            onBoardView(option);
+            this.onBoardView(option);
         } else if(menu.equals("board/update")) {
-            onBoardUpdate(option);
+            this.onBoardUpdate(option);
         } else if(menu.equals("board/delete")) {
-            onBoardDelete(option);
+            this.onBoardDelete(option);
         } else {
             System.out.println("명령어가 올바르지 않습니다.");
         }
     }
     
-    
+    /*
     // 게시글 방번호 찾는 메서드
-    static int onBoardIndex(int option) {
-        for(int i = 0; i < bCount; i++) {
-            if(boards[i] == null) continue;
-            if(boards[option].subject == boards[i].subject) {
+    int onBoardIndex(int option) {
+        for(int i = 0; i < this.bCount; i++) {
+            if(this.boards[i] == null) continue;
+            if(this.boards[option].subject == this.boards[i].subject) {
                 return i;
             }
         } 
         return -1; 
-    }
+    }*/
 
     // 게시글 등록 메서드
-    static void onBoardAdd() {
+    void onBoardAdd() {
         Board board = new Board(); // 인스턴스 생성
                                 // add명령어 실행할 때 마다 
                                 // team은 새로운 인스턴스가 생성된다.
         System.out.println("[게시글 등록]");
         System.out.print("제목? ");
-        board.subject = keyScan.nextLine();
+        board.subject = this.keyScan.nextLine();
         System.out.print("내용? ");
-        board.content = keyScan.nextLine();
+        board.content = this.keyScan.nextLine();
         System.out.print("등록일? ");
-        board.date = keyScan.nextLine();
+        board.date = Date.valueOf(this.keyScan.nextLine());
 
-        boards[bCount++] = board;
+        // this.boards[this.bCount++] = board;
+        boardDao.insert(board);
     }
     
     // 모든 게시글 출력 메서드
-    static void onBoardList() {
+    void onBoardList() {
         System.out.println("[게시글 목록]");
-        for(int i = 0; i < bCount; i++) {
-            if(boards[i] == null) continue;
+        Board[] board = boardDao.list();
+        
+        for(int i = 0; i < board.length; i++) {
+            if(board[i] == null) continue;
             System.out.printf("%d, %s, %s\n",
-                i,
-                boards[i].subject,
-                boards[i].date);
+                i, board[i].subject, board[i].date);
         }
 
     }
 
     // 게시글 조회 메서드
-    static void onBoardView(String option) {
+    void onBoardView(String option) {
         System.out.println("[게시글 조회]");
         if(option == null) {
             System.out.println("게시물번호를 입력하시기 바랍니다.");
             return;
         }
 
-        int iOption = Integer.parseInt(option); // 옵션을 숫자로 변환
-        int i = onBoardIndex(iOption);
+        Board board = boardDao.get(Integer.parseInt(option));
 
-        if(i < 0 || bCount <= i) {
+        if(board == null) {
             System.out.println("해당 번호의 게시물이 없습니다.");
 
-        } else { 
-            System.out.printf("제목 : %s\n", boards[i].subject);
-            System.out.printf("내용 : %s\n", boards[i].content);
-            System.out.printf("등록일 : %s\n", boards[i].date);
+        } else {
+            System.out.printf("제목 : %s\n", board.subject);
+            System.out.printf("내용 : %s\n", board.content);
+            System.out.printf("등록일 : %s\n", board.date);
         }
     }
 
     // 게시글 업데이트 메서드
-    static void onBoardUpdate(String option) {
+    void onBoardUpdate(String option) {
         System.out.println("[게시글 변경]");
         if(option == null) {
             System.out.println("게시물번호를 입력하시기 바랍니다.");
             return;
         }
 
-        int iOption = Integer.parseInt(option); // 옵션을 숫자로 변환
-        int i = onBoardIndex(iOption);
-
-        if(i < 0 || bCount <= i) {
+        int i = Integer.parseInt(option);
+        Board board = boardDao.get(i);
+        
+        if(board == null) {
             System.out.println("해당 번호의 게시물이 없습니다.");
         } else {
             Board boardUpdate = new Board();
-            System.out.printf("제목(%s): ", boards[i].subject);
+            System.out.printf("제목(%s): ", board.subject);
             boardUpdate.subject = keyScan.nextLine();
-            System.out.printf("내용(%s): ", boards[i].content);
+            System.out.printf("내용(%s): ", board.content);
             boardUpdate.content = keyScan.nextLine();
-            boardUpdate.date = boards[i].date;
+            boardUpdate.date = board.date;
+            boardUpdate.no = board.no;
+            boardDao.update(boardUpdate);
             System.out.println("변경하였습니다.");
-            boards[i] = boardUpdate;
+            
         }
     }
 
     // 게시물을 삭제하는 메서드
-    static void onBoardDelete(String option) {
+    void onBoardDelete(String option) {
         if(option == null) {
             System.out.println("게시물번호를 입력하시기 바랍니다.");
             return;
         }
 
-        int iOption = Integer.parseInt(option); // 옵션을 숫자로 변환
-        int i = onBoardIndex(iOption);
+        int i = Integer.parseInt(option);
+        Board board = boardDao.get(i);
 
-
-        if(i < 0 || bCount <= i) {
+        if(board == null) {
             System.out.println("해당 번호의 게시물이 없습니다.");
         } else {            
             if(Console.confirm("정말 삭제하시겠습니까?")) {
-                boards[i] = null;
+                boardDao.delete(i);
                 System.out.println("삭제하였습니다.");
             }                   
         }

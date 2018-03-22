@@ -5,9 +5,9 @@ import java.util.Scanner;
 import bitcamp.java106.pms3.util.Console;
 import bitcamp.java106.pms3.controller.TeamController;
 import bitcamp.java106.pms3.controller.MemberController;
-import bitcamp.java106.pms3.controller.BoardController;
+import bitcamp.java106.pms3.controller.BoardController3;
 
-public class App2 {
+public class App3 {
 
     static Scanner keyScan = new Scanner(System.in);
     static String option = null; // 명령어 뒤의 문자열
@@ -32,9 +32,9 @@ public class App2 {
     
 
     public static void main(String[] args) {
-        TeamController.keyScan = keyScan;
-        MemberController.keyScan = keyScan;
-        BoardController.keyScan = keyScan;
+        TeamController teamController = new TeamController(keyScan);
+        MemberController memberController = new MemberController(keyScan);
+        BoardController3 boardController = new BoardController3(keyScan);
         Console.keyScan = keyScan;
 
         
@@ -55,11 +55,11 @@ public class App2 {
             } else if(menu.equals("help")) {
                 onHelp();
             } else if(menu.startsWith("team/")) {
-                TeamController.service(menu, option);
+                teamController.service(menu, option);
             } else if(menu.startsWith("member/")) {
-                MemberController.service(menu, option);
+                memberController.service(menu, option);
             } else if(menu.startsWith("board/")) {
-                BoardController.service(menu, option);
+                boardController.service(menu, option);
             } else {
                 System.out.println("명령어가 올바르지 않습니다.");
             }

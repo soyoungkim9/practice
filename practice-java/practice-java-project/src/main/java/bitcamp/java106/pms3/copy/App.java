@@ -1,13 +1,12 @@
-package bitcamp.java106.pms3;
+package bitcamp.java106.pms3.copy;
 
 import java.util.Scanner;
-
 import bitcamp.java106.pms3.util.Console;
 import bitcamp.java106.pms3.controller.TeamController;
 import bitcamp.java106.pms3.controller.MemberController;
 import bitcamp.java106.pms3.controller.BoardController;
 
-public class App2 {
+public class App {
 
     static Scanner keyScan = new Scanner(System.in);
     static String option = null; // 명령어 뒤의 문자열

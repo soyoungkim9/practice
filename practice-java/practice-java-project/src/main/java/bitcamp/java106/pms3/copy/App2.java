@@ -1,4 +1,4 @@
-package bitcamp.java106.pms3;
+package bitcamp.java106.pms3.copy;
 
 import java.util.Scanner;
 
