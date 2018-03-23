@@ -6,7 +6,7 @@ import bitcamp.java106.pms2.domain.Member;
 import bitcamp.java106.pms3.dao.MemberDao;
 import bitcamp.java106.pms3.util.Console;
 
-public class MemberController {
+public class MemberController extends TeamController {
     Scanner keyScan;
     
     MemberDao memberDao = new MemberDao();
@@ -15,7 +15,9 @@ public class MemberController {
     Member[] members = new Member[1000];
     int mCount = 0;
 
+    public MemberController(){}
     public MemberController(Scanner scanner) {
+        super(scanner); // 매개변수가 있는 생성자 호출
         this.keyScan = scanner;
     }
     
@@ -104,8 +106,8 @@ public class MemberController {
             System.out.println("해당 이름의 멤버가 없습니다.");
         } else {
             Member memberUpdate = new Member();
-            System.out.printf("아이디(%s)? ", member.id);
-            memberUpdate.id = keyScan.nextLine();
+            System.out.printf("아이디(%s)\n", member.id);
+            memberUpdate.id = member.id;
             System.out.printf("이메일(%s)? ", member.email);
             memberUpdate.email = keyScan.nextLine();
             System.out.printf("암호(%s)? ", member.password);

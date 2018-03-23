@@ -1,14 +1,12 @@
-package bitcamp.java106.pms3;
+package bitcamp.java106.pms5;
 
 import java.util.Scanner;
-
-import bitcamp.java106.pms3.controller.BoardController3;
-import bitcamp.java106.pms3.controller.MemberController;
-import bitcamp.java106.pms3.controller.RegisterController;
-import bitcamp.java106.pms3.controller.TeamController;
 import bitcamp.java106.pms3.util.Console;
+import bitcamp.java106.pms3.controller.TeamController;
+import bitcamp.java106.pms3.controller.MemberController;
+import bitcamp.java106.pms3.controller.BoardController;
 
-public class App3 {
+public class App {
 
     static Scanner keyScan = new Scanner(System.in);
     static String option = null; // 명령어 뒤의 문자열
@@ -33,10 +31,9 @@ public class App3 {
     
 
     public static void main(String[] args) {
-        TeamController teamController = new TeamController(keyScan);
-        MemberController memberController = new MemberController(keyScan);
-        BoardController3 boardController = new BoardController3(keyScan);
-        RegisterController registerController = new RegisterController(keyScan);
+        TeamController.keyScan = keyScan;
+        MemberController.keyScan = keyScan;
+        BoardController.keyScan = keyScan;
         Console.keyScan = keyScan;
 
         
@@ -50,20 +47,18 @@ public class App3 {
             } else {
                 option = null;
             }
-            
+
             if(menu.equals("quit")) {
                 onQuit();
                 break;
-            } else if(menu.startsWith("team/member/")) {
-                registerController.service(menu, option);
             } else if(menu.equals("help")) {
                 onHelp();
             } else if(menu.startsWith("team/")) {
-                teamController.service(menu, option);
+                TeamController.service(menu, option);
             } else if(menu.startsWith("member/")) {
-                memberController.service(menu, option);
+                MemberController.service(menu, option);
             } else if(menu.startsWith("board/")) {
-                boardController.service(menu, option);
+                BoardController.service(menu, option);
             } else {
                 System.out.println("명령어가 올바르지 않습니다.");
             }

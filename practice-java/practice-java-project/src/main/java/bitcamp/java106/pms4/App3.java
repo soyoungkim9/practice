@@ -1,12 +1,16 @@
-package bitcamp.java106.pms3.copy;
+package bitcamp.java106.pms4;
 
 import java.util.Scanner;
-import bitcamp.java106.pms3.util.Console;
-import bitcamp.java106.pms3.controller.TeamController;
-import bitcamp.java106.pms3.controller.MemberController;
-import bitcamp.java106.pms3.controller.BoardController;
 
-public class App {
+import bitcamp.java106.pms4.controller.BoardController3;
+import bitcamp.java106.pms4.controller.MemberController;
+import bitcamp.java106.pms4.controller.RegisterController;
+import bitcamp.java106.pms4.controller.TeamController;
+import bitcamp.java106.pms4.dao.MemberDao;
+import bitcamp.java106.pms4.dao.TeamDao;
+import bitcamp.java106.pms4.util.Console;
+
+public class App3 {
 
     static Scanner keyScan = new Scanner(System.in);
     static String option = null; // 명령어 뒤의 문자열
@@ -31,9 +35,12 @@ public class App {
     
 
     public static void main(String[] args) {
-        TeamController.keyScan = keyScan;
-        MemberController.keyScan = keyScan;
-        BoardController.keyScan = keyScan;
+        TeamDao teamDao = new TeamDao();
+        MemberDao memberDao = new MemberDao();
+        TeamController teamController = new TeamController(keyScan, teamDao);
+        MemberController memberController = new MemberController(keyScan, memberDao);
+        RegisterController registerController = new RegisterController(keyScan, teamDao, memberDao);
+        BoardController3 boardController = new BoardController3(keyScan);
         Console.keyScan = keyScan;
 
         
@@ -47,18 +54,20 @@ public class App {
             } else {
                 option = null;
             }
-
+            
             if(menu.equals("quit")) {
                 onQuit();
                 break;
             } else if(menu.equals("help")) {
                 onHelp();
+            } else if(menu.startsWith("team/member/")) {
+                registerController.service(menu, option);
             } else if(menu.startsWith("team/")) {
-                TeamController.service(menu, option);
+                teamController.service(menu, option);
             } else if(menu.startsWith("member/")) {
-                MemberController.service(menu, option);
+                memberController.service(menu, option);
             } else if(menu.startsWith("board/")) {
-                BoardController.service(menu, option);
+                boardController.service(menu, option);
             } else {
                 System.out.println("명령어가 올바르지 않습니다.");
             }
