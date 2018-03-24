@@ -2,11 +2,13 @@ package bitcamp.java106.pms5;
 
 import java.util.Scanner;
 
-import bitcamp.java106.pms3.controller.BoardController3;
-import bitcamp.java106.pms3.controller.MemberController;
-import bitcamp.java106.pms3.controller.RegisterController;
-import bitcamp.java106.pms3.controller.TeamController;
-import bitcamp.java106.pms3.util.Console;
+import bitcamp.java106.pms5.controller.BoardController3;
+import bitcamp.java106.pms5.controller.MemberController;
+import bitcamp.java106.pms5.controller.TeamController;
+import bitcamp.java106.pms5.controller.TeamMemberController;
+import bitcamp.java106.pms5.dao.MemberDao;
+import bitcamp.java106.pms5.dao.TeamDao;
+import bitcamp.java106.pms5.util.Console;
 
 public class App3 {
 
@@ -33,10 +35,12 @@ public class App3 {
     
 
     public static void main(String[] args) {
-        TeamController teamController = new TeamController(keyScan);
-        MemberController memberController = new MemberController(keyScan);
+        TeamDao teamDao = new TeamDao();
+        MemberDao memberDao = new MemberDao();
+        TeamController teamController = new TeamController(keyScan, teamDao);
+        MemberController memberController = new MemberController(keyScan, memberDao);
         BoardController3 boardController = new BoardController3(keyScan);
-        RegisterController registerController = new RegisterController(keyScan);
+        TeamMemberController teamMemberController = new TeamMemberController(keyScan, teamDao, memberDao);
         Console.keyScan = keyScan;
 
         
@@ -55,7 +59,7 @@ public class App3 {
                 onQuit();
                 break;
             } else if(menu.startsWith("team/member/")) {
-                registerController.service(menu, option);
+                teamMemberController.service(menu, option);
             } else if(menu.equals("help")) {
                 onHelp();
             } else if(menu.startsWith("team/")) {

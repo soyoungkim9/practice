@@ -1,6 +1,6 @@
 package bitcamp.java106.pms5.dao;
 
-import bitcamp.java106.pms3.domain.Board;
+import bitcamp.java106.pms5.domain.Board;
 
 public class BoardDao {
     Board[] boards = new Board[1000];

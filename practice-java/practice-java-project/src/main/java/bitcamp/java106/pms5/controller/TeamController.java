@@ -3,28 +3,17 @@ package bitcamp.java106.pms5.controller;
 import java.sql.Date;
 import java.util.Scanner;
 
-import bitcamp.java106.pms2.domain.Team;
-import bitcamp.java106.pms3.dao.TeamDao;
-import bitcamp.java106.pms3.util.Console;
+import bitcamp.java106.pms5.domain.Team;
+import bitcamp.java106.pms5.dao.TeamDao;
+import bitcamp.java106.pms5.util.Console;
 
 public class TeamController {
     Scanner keyScan;
+    TeamDao teamdao;
 
-    // 이따가 삭제
-    Team[] teams = new Team[1000]; // 레퍼런스 생성
-    int tCount = 0; // team인원 등록 수
-
-    TeamDao teamdao = new TeamDao();
-
-    public TeamController() {
-    }
-
-    public TeamController(Scanner scanner) {
+    public TeamController(Scanner scanner, TeamDao teamDao) {
         this.keyScan = scanner;
-    }
-
-    public TeamDao getTeamDao() {
-        return teamdao;
+        this.teamdao = teamDao;
     }
 
     public void service(String menu, String option) {
@@ -42,17 +31,6 @@ public class TeamController {
             System.out.println("명령어가 올바르지 않습니다.");
         }
     }
-
-    // // 옵션과 일치하는 팀의 인덱스를 찾는 메서드
-    // int onTeamIndex(String option) {
-    // for(int i = 0; i < this.tCount; i++) {
-    // if(this.teams[i] == null) continue;
-    // if(option.equals(this.teams[i].name.toLowerCase())) {
-    // return i;
-    // }
-    // }
-    // return -1;
-    // }
 
     // 팀 등록 메서드
     public void onTeamAdd() {
@@ -93,10 +71,9 @@ public class TeamController {
             System.out.println("팀명을 입력하시기 바랍니다.");
         }
 
-        int i = teamdao.get(option);
-        Team team = teamdao.view(i);
+        Team team = teamdao.get(option);
 
-        if (i == -1) {
+        if (team == null) {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
             System.out.printf("팀명 : %s\n", team.name);
@@ -113,10 +90,9 @@ public class TeamController {
             return;
         }
 
-        int i = teamdao.get(option);
-        Team team = teamdao.view(i);
+        Team team = teamdao.get(option);
 
-        if (i == -1) {
+        if (team == null) {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
             Team teamUpdate = new Team();
@@ -144,13 +120,13 @@ public class TeamController {
             return;
         }
 
-        int i = teamdao.get(option);
+        Team team = teamdao.get(option);
 
-        if (i == -1) {
+        if (team == null) {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
             if (Console.confirm("정말 삭제하시겠습니까?")) {
-                teamdao.delete(i);
+                teamdao.delete(option);
                 System.out.println("삭제하였습니다.");
             }
         }

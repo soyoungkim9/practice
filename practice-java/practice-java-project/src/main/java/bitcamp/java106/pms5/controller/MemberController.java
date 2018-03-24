@@ -2,23 +2,17 @@ package bitcamp.java106.pms5.controller;
 
 import java.util.Scanner;
 
-import bitcamp.java106.pms2.domain.Member;
-import bitcamp.java106.pms3.dao.MemberDao;
-import bitcamp.java106.pms3.util.Console;
+import bitcamp.java106.pms5.domain.Member;
+import bitcamp.java106.pms5.dao.MemberDao;
+import bitcamp.java106.pms5.util.Console;
 
-public class MemberController extends TeamController {
+public class MemberController {
     Scanner keyScan;
-    
-    MemberDao memberDao = new MemberDao();
-    
-    // 이따가 삭제
-    Member[] members = new Member[1000];
-    int mCount = 0;
-
-    public MemberController(){}
-    public MemberController(Scanner scanner) {
-        super(scanner); // 매개변수가 있는 생성자 호출
+    MemberDao memberDao;
+        
+    public MemberController(Scanner scanner, MemberDao memberDao) {
         this.keyScan = scanner;
+        this.memberDao = memberDao;
     }
     
     public void service(String menu, String option) {
@@ -37,16 +31,6 @@ public class MemberController extends TeamController {
         }
     }
     
-//    public int onMemberIndex(String option) {
-//        for(int i = 0; i < mCount; i ++) {
-//            if(members[i] == null) continue;
-//            if(option.equals(members[i].id.toLowerCase())) {
-//                return i;
-//            }
-//        }
-//        return -1;
-//    }
-
     // 회원 등록 메서드
     public void onMemAdd() {
         Member member = new Member();
@@ -80,12 +64,11 @@ public class MemberController extends TeamController {
             return;
         }
         
-        int i = memberDao.get(option);
+        Member member = memberDao.get(option);
 
-        if(i == -1) {
+        if(member == null) {
             System.out.println("해당 아이디의 회원이 없습니다.");
         } else {
-            Member member = memberDao.view(i);
             System.out.printf("아이디: %s\n", member.id);
             System.out.printf("이메일: %s\n", member.email);
             System.out.printf("암호: %s\n", member.password);
@@ -99,10 +82,9 @@ public class MemberController extends TeamController {
             return;
         }
 
-        int i = memberDao.get(option);
-        Member member = memberDao.view(i);
+        Member member = memberDao.get(option);
         
-        if(i == -1) {
+        if(member == null) {
             System.out.println("해당 이름의 멤버가 없습니다.");
         } else {
             Member memberUpdate = new Member();
@@ -125,13 +107,13 @@ public class MemberController extends TeamController {
             return;
         }
 
-        int i = memberDao.get(option);
+        Member member = memberDao.get(option);
 
-        if(i == -1) {
+        if(member == null) {
             System.out.println("해당 이름의 멤버가 없습니다.");
         } else {            
             if(Console.confirm("정말 삭제하시겠습니까?")) {
-                memberDao.delete(i);
+                memberDao.delete(option);
                 System.out.println("삭제하였습니다.");
             }                   
           }
