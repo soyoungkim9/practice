@@ -1,12 +1,15 @@
 package bitcamp.java106.pms6;
 
+import java.text.ParseException;
 import java.util.Scanner;
 
 import bitcamp.java106.pms6.controller.BoardController3;
 import bitcamp.java106.pms6.controller.MemberController;
+import bitcamp.java106.pms6.controller.TaskController;
 import bitcamp.java106.pms6.controller.TeamController;
 import bitcamp.java106.pms6.controller.TeamMemberController;
 import bitcamp.java106.pms6.dao.MemberDao;
+import bitcamp.java106.pms6.dao.TaskDao;
 import bitcamp.java106.pms6.dao.TeamDao;
 import bitcamp.java106.pms6.util.Console;
 
@@ -34,13 +37,15 @@ public class App3 {
 
     
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         TeamDao teamDao = new TeamDao();
         MemberDao memberDao = new MemberDao();
+        TaskDao taskDao = new TaskDao();
         TeamController teamController = new TeamController(keyScan, teamDao);
         MemberController memberController = new MemberController(keyScan, memberDao);
         BoardController3 boardController = new BoardController3(keyScan);
         TeamMemberController teamMemberController = new TeamMemberController(keyScan, teamDao, memberDao);
+        TaskController taskController = new TaskController(keyScan, taskDao, teamDao);
         Console.keyScan = keyScan;
 
         
@@ -68,6 +73,8 @@ public class App3 {
                 memberController.service(menu, option);
             } else if(menu.startsWith("board/")) {
                 boardController.service(menu, option);
+            } else if(menu.startsWith("task/")) {
+                taskController.service(menu, option);
             } else {
                 System.out.println("명령어가 올바르지 않습니다.");
             }

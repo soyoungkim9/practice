@@ -39,16 +39,16 @@ public class TeamController {
                                 // team은 새로운 인스턴스가 생성된다.
 
         System.out.print("팀명? ");
-        team.name = this.keyScan.nextLine();
+        team.setName(this.keyScan.nextLine());
         System.out.print("설명? ");
-        team.description = this.keyScan.nextLine();
+        team.setDescription(this.keyScan.nextLine());
         System.out.print("최대인원? ");
-        team.maxQty = this.keyScan.nextInt();
+        team.setMaxQty(this.keyScan.nextInt());
         keyScan.nextLine();
         System.out.print("시작일? ");
-        team.startDate = Date.valueOf(this.keyScan.nextLine());
+        team.setStartDate(Date.valueOf(this.keyScan.nextLine()));
         System.out.print("종료일? ");
-        team.endDate = Date.valueOf(this.keyScan.nextLine());
+        team.setEndDate(Date.valueOf(this.keyScan.nextLine()));
 
         teamdao.insert(team);
     }
@@ -60,8 +60,10 @@ public class TeamController {
         for (int i = 0; i < teams.length; i++) {
             if (teams[i] == null)
                 continue;
-            System.out.printf("%s, %d, %s ~ %s\n", teams[i].name, teams[i].maxQty, teams[i].startDate,
-                    teams[i].endDate);
+            System.out.printf("%s, %d, %s ~ %s\n", 
+                    teams[i].getName(), teams[i].getMaxQty(), 
+                    teams[i].getStartDate(),
+                    teams[i].getEndDate());
         }
     }
 
@@ -76,10 +78,10 @@ public class TeamController {
         if (team == null) {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
-            System.out.printf("팀명 : %s\n", team.name);
-            System.out.printf("설명 : %s\n", team.description);
-            System.out.printf("최대인원 : %d\n", team.maxQty);
-            System.out.printf("기간 : %s ~ %s\n", team.startDate, team.endDate);
+            System.out.printf("팀명 : %s\n", team.getName());
+            System.out.printf("설명 : %s\n", team.getDescription());
+            System.out.printf("최대인원 : %d\n", team.getMaxQty());
+            System.out.printf("기간 : %s ~ %s\n", team.getStartDate(), team.getEndDate());
         }
     }
 
@@ -96,18 +98,18 @@ public class TeamController {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
             Team teamUpdate = new Team();
-            System.out.printf("팀명(%s)\n", team.name);
-            teamUpdate.name = team.name;
-            System.out.printf("설명(%s)? ", team.description);
-            teamUpdate.description = keyScan.nextLine();
-            System.out.printf("최대인원(%d)? ", team.maxQty);
-            teamUpdate.maxQty = keyScan.nextInt();
+            System.out.printf("팀명(%s)\n", team.getName());
+            teamUpdate.setName(team.getName());
+            System.out.printf("설명(%s)? ", team.getDescription());
+            teamUpdate.setDescription(keyScan.nextLine());
+            System.out.printf("최대인원(%d)? ", team.getMaxQty());
+            teamUpdate.setMaxQty(keyScan.nextInt());
             keyScan.nextLine();
-            System.out.printf("시작일(%s)? ", team.startDate);
-            teamUpdate.startDate = Date.valueOf(this.keyScan.nextLine());
-            System.out.printf("종료일(%s)? ", team.endDate);
-            teamUpdate.endDate = Date.valueOf(this.keyScan.nextLine());
-            teamUpdate.no = team.no;
+            System.out.printf("시작일(%s)? ", team.getStartDate());
+            teamUpdate.setStartDate(Date.valueOf(this.keyScan.nextLine()));
+            System.out.printf("종료일(%s)? ", team.getEndDate());
+            teamUpdate.setEndDate(Date.valueOf(this.keyScan.nextLine()));
+            teamUpdate.setNo(team.getNo());
             teamdao.update(teamUpdate);
             System.out.println("변경하였습니다.");
         }

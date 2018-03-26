@@ -77,10 +77,12 @@ public class TeamMemberController {
         }
         System.out.println("[팀 멤버 목록]");
         System.out.print("회원들: ");
-        for (int i = 0; i < team.members.length; i++) {
-            if (team.members[i] == null)
+        
+        Member[] members = team.getMembers();
+        for (int i = 0; i < members.length; i++) {
+            if (members[i] == null)
                 continue;
-            System.out.printf("%s, ", team.members[i].id);
+            System.out.printf("%s, ", members[i].getId());
         }
         System.out.println();
     }
