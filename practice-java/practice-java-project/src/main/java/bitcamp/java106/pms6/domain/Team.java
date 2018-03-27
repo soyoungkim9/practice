@@ -1,6 +1,7 @@
 package bitcamp.java106.pms6.domain;
 
 import java.sql.Date;
+import java.util.Arrays;
 
 public class Team {
     private int no;
@@ -39,6 +40,16 @@ public class Team {
             }
         }
         return 0;
+    }
+    
+    public Member getMember(String memberId) {
+        for(int i = 0; i < this.members.length; i++) {
+            if(this.members[i] == null) continue;
+            if(members[i].getId().equals(memberId)) {
+                return this.members[i];
+            }
+        }
+        return null;
     }
 
     public int getNo() {
@@ -92,6 +103,13 @@ public class Team {
     public Member[] getMembers() {
         return members;
     }
+
+    @Override
+    public String toString() {
+        return "Team [name=" + name + ", maxQty=" + maxQty + ", startDate=" + startDate + ", endDate=" + endDate + "]";
+    }
+
     
 
+    
 }

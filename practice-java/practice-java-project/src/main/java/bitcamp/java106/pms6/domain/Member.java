@@ -31,5 +31,10 @@ public  class Member {
         this.password = password;
     }
     
+    @Override
+    public String toString() {
+        return "Member [id=" + id + ", email=" + email + ", password=" + password + "]";
+    }
+    
     
 }
